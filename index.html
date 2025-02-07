@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carbon Footprint Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap"
+      rel="stylesheet"
+    />
+    <script src="js/footer.js"></script>
+  </head>
+  <body>
+    <section class="hero">
+      <!-- Add more leaves with different properties -->
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.2;
+          --duration: 8s;
+          --delay: 0s;
+          --translate-x: 100px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.5;
+          --duration: 12s;
+          --delay: 2s;
+          --translate-x: -150px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.8;
+          --duration: 10s;
+          --delay: 4s;
+          --translate-x: 80px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.3;
+          --duration: 15s;
+          --delay: 1s;
+          --translate-x: -120px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.7;
+          --duration: 11s;
+          --delay: 3s;
+          --translate-x: 200px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.1;
+          --duration: 9s;
+          --delay: 2.5s;
+          --translate-x: -180px;
+        "
+      ></div>
+      <div
+        class="floating-leaf"
+        style="
+          --leaf-pos: 0.9;
+          --duration: 14s;
+          --delay: 0.5s;
+          --translate-x: 150px;
+        "
+      ></div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">Discover Your Carbon Footprint Instantly</h1>
+        <p class="hero-subtitle">
+          Calculate your impact and receive personalized sustainability tips to
+          reduce your footprint.
+        </p>
+        <button onclick="scrollToCalculator()" class="cta-button">
+          Calculate Now
+        </button>
+      </div>
+    </section>
+
+    <section id="calculator" class="py-10 px-4">
+      <form id="carbonForm" class="max-w-xl mx-auto p-8 rounded-lg shadow-lg">
+        <!-- Transport Mode -->
+        <div class="form-group mb-8">
+          <label class="block text-gray-700 text-lg font-semibold mb-4">
+            Transportation Mode
+            <span class="icon" id="transport-emoji">🚗</span>
+          </label>
+          <div class="transport-options grid grid-cols-2 gap-4">
+            <div class="transport-option" data-value="car" data-emoji="🚗">
+              <input
+                type="radio"
+                name="transport-mode"
+                id="car"
+                value="car"
+                class="hidden"
+                checked
+              />
+              <label for="car" class="transport-label">
+                <span class="text-2xl mb-2">🚗</span>
+                <span>Car</span>
+              </label>
+            </div>
+            <div
+              class="transport-option"
+              data-value="public-transport"
+              data-emoji="🚌"
+            >
+              <input
+                type="radio"
+                name="transport-mode"
+                id="public-transport"
+                value="public-transport"
+                class="hidden"
+              />
+              <label for="public-transport" class="transport-label">
+                <span class="text-2xl mb-2">🚌</span>
+                <span>Public Transport</span>
+              </label>
+            </div>
+            <div class="transport-option" data-value="bike" data-emoji="🚲">
+              <input
+                type="radio"
+                name="transport-mode"
+                id="bike"
+                value="bike"
+                class="hidden"
+              />
+              <label for="bike" class="transport-label">
+                <span class="text-2xl mb-2">🚲</span>
+                <span>Bike</span>
+              </label>
+            </div>
+            <div class="transport-option" data-value="walk" data-emoji="🚶">
+              <input
+                type="radio"
+                name="transport-mode"
+                id="walk"
+                value="walk"
+                class="hidden"
+              />
+              <label for="walk" class="transport-label">
+                <span class="text-2xl mb-2">🚶</span>
+                <span>Walk</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Add this after transport mode section -->
+        <div class="form-group mb-8">
+          <label
+            for="commute-distance"
+            class="block text-gray-700 text-lg font-semibold mb-3"
+          >
+            Daily Commute Distance
+            <span
+              id="distance-value"
+              class="ml-2 px-3 py-1 bg-green-100 text-green-800 rounded-full"
+              >50 km</span
+            >
+            <span class="icon" id="commute-emoji">🚗</span>
+          </label>
+          <div class="slider-container">
+            <input
+              type="range"
+              id="commute-distance"
+              name="commute-distance"
+              min="0"
+              max="100"
+              value="50"
+              class="styled-slider"
+              data-emojis='{"0-20": "🚶", "21-50": "🚲", "51-80": "🚌", "81-100": "🚗"}'
+            />
+            <div
+              class="slider-labels flex justify-between text-sm text-gray-500 mt-1"
+            >
+              <span>0 km</span>
+              <span>50 km</span>
+              <span>100 km</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Energy Usage -->
+        <div class="form-group mb-8">
+          <label
+            for="home-energy"
+            class="block text-gray-700 text-lg font-semibold mb-3"
+          >
+            Monthly Energy Usage
+            <span class="icon" id="energy-emoji">💡</span>
+          </label>
+          <div
+            class="energy-card bg-white p-6 rounded-xl shadow-sm border border-gray-200"
+          >
+            <div class="energy-input-wrapper relative">
+              <input
+                type="number"
+                id="home-energy"
+                name="home-energy"
+                placeholder="e.g., 250"
+                class="modern-input pr-16"
+                min="0"
+                max="1000"
+                data-emojis='{"0-200": "🌱", "201-500": "💡", "501-1000": "⚡"}'
+              />
+              <span class="unit-label">kWh</span>
+            </div>
+            <div class="energy-feedback mt-3"></div>
+            <div class="energy-scale flex justify-between mt-4 text-xs">
+              <span class="text-green-600">🌱 Low usage</span>
+              <span class="text-yellow-600">💡 Average</span>
+              <span class="text-red-600">⚡ High usage</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Diet Preference -->
+        <div class="form-group mb-8">
+          <label class="block text-gray-700 text-lg font-semibold mb-4">
+            Diet Preference
+          </label>
+          <div class="diet-options grid grid-cols-3 gap-4">
+            <div class="diet-option" data-emoji="🌱">
+              <input
+                type="radio"
+                name="diet"
+                id="vegan"
+                value="vegan"
+                class="hidden"
+              />
+              <label for="vegan" class="diet-label">
+                <span class="diet-emoji">🌱</span>
+                <span class="diet-name">Vegan</span>
+                <span class="diet-description">Plant-based only</span>
+              </label>
+            </div>
+            <div class="diet-option" data-emoji="🥗">
+              <input
+                type="radio"
+                name="diet"
+                id="vegetarian"
+                value="vegetarian"
+                class="hidden"
+              />
+              <label for="vegetarian" class="diet-label">
+                <span class="diet-emoji">🥗</span>
+                <span class="diet-name">Vegetarian</span>
+                <span class="diet-description">No meat</span>
+              </label>
+            </div>
+            <div class="diet-option" data-emoji="🍖">
+              <input
+                type="radio"
+                name="diet"
+                id="omnivore"
+                value="omnivore"
+                class="hidden"
+                checked
+              />
+              <label for="omnivore" class="diet-label">
+                <span class="diet-emoji">🍖</span>
+                <span class="diet-name">Omnivore</span>
+                <span class="diet-description">All foods</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-6">
+          <label for="waste-habits" class="block text-gray-700 font-semibold">
+            Recycling Frequency (%):
+            <span id="waste-value" class="font-bold">50</span>
+            <span class="icon" id="recycling-emoji">♻️</span>
+          </label>
+          <input
+            type="range"
+            id="waste-habits"
+            name="waste-habits"
+            min="0"
+            max="100"
+            value="50"
+            class="mt-2 w-full"
+            data-emojis='{"0-30": "🗑️", "31-70": "♻️", "71-100": "🌱"}'
+          />
+        </div>
+        <button
+          type="submit"
+          class="submit-button mt-8 w-full bg-green-500 hover:bg-green-600 text-white text-lg font-bold py-3 px-6 rounded-lg transform transition-all duration-300"
+        >
+          Calculate My Footprint
+        </button>
+      </form>
+    </section>
+
+    <!-- Add this after the existing calculator section -->
+
+    <section id="results" class="py-10 px-4 hidden">
+      <div class="max-w-4xl mx-auto">
+        <div
+          class="results-content bg-white p-8 rounded-lg shadow-lg opacity-0 transform translate-y-4"
+        >
+          <!-- Score Display -->
+          <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">
+              Your Carbon Footprint Results
+            </h2>
+            <div class="gauge-container mb-6">
+              <canvas id="gaugeChart" width="300" height="300"></canvas>
+            </div>
+            <div class="score-display text-4xl font-bold text-green-600">
+              <span id="carbonScore">0</span>
+              <span class="text-2xl">tons CO2/year</span>
+            </div>
+            <p class="text-gray-600 mt-2" id="scoreDescription"></p>
+          </div>
+
+          <!-- Breakdown Charts -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+            <div class="chart-container">
+              <h3 class="text-xl font-semibold mb-4">Emission Sources</h3>
+              <canvas id="breakdownChart"></canvas>
+            </div>
+            <div class="chart-container">
+              <h3 class="text-xl font-semibold mb-4">Comparison to Averages</h3>
+              <canvas id="comparisonChart"></canvas>
+            </div>
+          </div>
+
+          <!-- Recommendations -->
+          <div class="recommendations mt-12 p-6 bg-green-50 rounded-lg">
+            <h3 class="text-xl font-semibold mb-4">Recommendations</h3>
+            <div id="recommendationsList" class="space-y-3">
+              <!-- Recommendations will be inserted here -->
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex justify-center gap-4 mt-8">
+            <button
+              onclick="window.print()"
+              class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+            >
+              Save Results
+            </button>
+            <button
+              onclick="resetCalculator()"
+              class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            >
+              Recalculate
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Add Chart.js before your closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="js/sustainabilityTips.js"></script>
+    <script src="js/socialEngagement.js"></script>
+
+    <script>
+      // Replace existing smooth scroll code with this improved version
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("href");
+          const targetSection = document.querySelector(targetId);
+          const offset = 0; // Adjust if you have a fixed header
+
+          window.scrollTo({
+            top: targetSection.offsetTop - offset,
+            behavior: "smooth",
+          });
+        });
+      });
+
+      // Unified slider update function
+      function updateSlider(slider, valueDisplay, emojiElement) {
+        const value = slider.value;
+        // Update displayed value
+        valueDisplay.textContent =
+          slider.id === "waste-habits" ? `${value}%` : `${value} km`;
+
+        // Update emoji based on value ranges
+        if (slider.dataset.emojis) {
+          const ranges = JSON.parse(slider.dataset.emojis);
+          for (const [range, emoji] of Object.entries(ranges)) {
+            const [min, max] = range.split("-").map(Number);
+            if (value >= min && value <= max) {
+              emojiElement.textContent = emoji;
+              // Add pop animation class
+              emojiElement.classList.remove("emoji-pop");
+              void emojiElement.offsetWidth; // Force reflow
+              emojiElement.classList.add("emoji-pop");
+              break;
+            }
+          }
+        }
+
+        // Update slider background
+        const percentage =
+          ((value - slider.min) / (slider.max - slider.min)) * 100;
+        slider.style.background = `linear-gradient(to right, #56ab2f 0%, #56ab2f ${percentage}%, #e5e7eb ${percentage}%, #e5e7eb 100%)`;
+      }
+
+      // Initialize all sliders
+      const sliders = {
+        commute: {
+          slider: document.getElementById("commute-distance"),
+          value: document.getElementById("distance-value"),
+          emoji: document.getElementById("commute-emoji"),
+        },
+        waste: {
+          slider: document.getElementById("waste-habits"),
+          value: document.getElementById("waste-value"),
+          emoji: document.getElementById("recycling-emoji"),
+        },
+      };
+
+      // Set up slider event listeners
+      Object.values(sliders).forEach(({ slider, value, emoji }) => {
+        if (slider && value && emoji) {
+          // Initialize slider
+          updateSlider(slider, value, emoji);
+          // Add event listener
+          slider.addEventListener("input", () =>
+            updateSlider(slider, value, emoji)
+          );
+        }
+      });
+
+      // Transport mode selection
+      document.querySelectorAll(".transport-option input").forEach((input) => {
+        input.addEventListener("change", function () {
+          const emoji = this.parentElement.dataset.emoji;
+          const transportEmoji = document.getElementById("transport-emoji");
+
+          // Update emoji with animation
+          transportEmoji.classList.remove("emoji-pop");
+          void transportEmoji.offsetWidth; // Force reflow
+          transportEmoji.textContent = emoji;
+          transportEmoji.classList.add("emoji-pop");
+
+          // Update active state
+          document
+            .querySelectorAll(".transport-option")
+            .forEach((opt) => opt.classList.remove("active"));
+          this.parentElement.classList.add("active");
+        });
+      });
+
+      // Energy usage input
+      const energyInput = document.getElementById("home-energy");
+      const energyEmoji = document.getElementById("energy-emoji");
+      const energyFeedback = document.querySelector(".energy-feedback");
+
+      energyInput.addEventListener("input", function () {
+        const value = parseInt(this.value) || 0;
+
+        // Update emoji
+        if (this.dataset.emojis) {
+          const ranges = JSON.parse(this.dataset.emojis);
+          for (const [range, emoji] of Object.entries(ranges)) {
+            const [min, max] = range.split("-").map(Number);
+            if (value >= min && value <= max) {
+              energyEmoji.classList.remove("emoji-pop");
+              void energyEmoji.offsetWidth;
+              energyEmoji.textContent = emoji;
+              energyEmoji.classList.add("emoji-pop");
+              break;
+            }
+          }
+        }
+
+        // Update feedback
+        if (value <= 200) {
+          energyFeedback.innerHTML =
+            "✨ Great! Your energy usage is environment-friendly";
+          energyFeedback.className =
+            "energy-feedback text-green-600 font-medium";
+        } else if (value <= 500) {
+          energyFeedback.innerHTML = "📊 Average consumption level";
+          energyFeedback.className =
+            "energy-feedback text-yellow-600 font-medium";
+        } else {
+          energyFeedback.innerHTML =
+            "⚠️ Consider reducing your energy consumption";
+          energyFeedback.className = "energy-feedback text-red-600 font-medium";
+        }
+      });
+
+      // Form submission handler
+      document
+        .getElementById("carbonForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          calculateResults();
+        });
+
+      // Real Carbon Footprint Calculation Functions
+      function calculateResults() {
+        const transport = document.querySelector(
+          'input[name="transport-mode"]:checked'
+        ).value;
+        const distance = parseFloat(
+          document.getElementById("commute-distance").value
+        );
+        const energy =
+          parseFloat(document.getElementById("home-energy").value) || 0;
+        const diet = document.querySelector('input[name="diet"]:checked').value;
+        const recycling = parseFloat(
+          document.getElementById("waste-habits").value
+        );
+
+        // Calculate emissions with real factors
+        const transportEmissions = calculateTransportEmissions(
+          transport,
+          distance
+        );
+        const energyEmissions = calculateEnergyEmissions(energy);
+        const dietEmissions = calculateDietEmissions(diet);
+        const wasteEmissions = calculateWasteEmissions(recycling);
+
+        const totalEmissions =
+          transportEmissions + energyEmissions + dietEmissions + wasteEmissions;
+
+        showResults(totalEmissions, {
+          transport: transportEmissions,
+          energy: energyEmissions,
+          diet: dietEmissions,
+          waste: wasteEmissions,
+        });
+      }
+
+      // Real emission calculation functions with actual conversion factors
+      function calculateTransportEmissions(mode, distance) {
+        // CO2 emissions in kg per km
+        const yearlyCommuteDays = 260; // Average working days per year
+        const factors = {
+          car: 0.192, // Average car emissions per km
+          "public-transport": 0.041, // Bus/train average
+          bike: 0,
+          walk: 0,
+        };
+        return (distance * 2 * yearlyCommuteDays * factors[mode]) / 1000; // Convert to metric tons
+      }
+
+      function calculateEnergyEmissions(kWh) {
+        // Average CO2 emissions per kWh in metric tons
+        const kwhToTonsFactor = 0.000433; // Global average
+        return kWh * 12 * kwhToTonsFactor; // Yearly emissions
+      }
+
+      function calculateDietEmissions(diet) {
+        // Yearly CO2 emissions in metric tons
+        const factors = {
+          vegan: 1.5,
+          vegetarian: 2.5,
+          omnivore: 3.3,
+        };
+        return factors[diet];
+      }
+
+      function calculateWasteEmissions(recyclingPercentage) {
+        // Average person produces 1.5 tons CO2 from waste per year
+        const maxWasteEmissions = 1.5;
+        return maxWasteEmissions * (1 - recyclingPercentage / 100);
+      }
+
+      function showResults(total, breakdown) {
+        // Smoothly hide calculator
+        const calculator = document.getElementById("calculator");
+        const results = document.getElementById("results");
+        const resultsContent = document.querySelector(".results-content");
+
+        calculator.classList.add("fade-out");
+
+        setTimeout(() => {
+          calculator.style.display = "none";
+          results.style.display = "block";
+
+          // Force a reflow
+          void results.offsetWidth;
+
+          resultsContent.classList.add("fade-in");
+
+          // Scroll to results
+          window.scrollTo({
+            top: results.offsetTop,
+            behavior: "smooth",
+          });
+
+          // Initialize charts
+          createGaugeChart(total);
+          createBreakdownChart(breakdown);
+          createComparisonChart(total);
+
+          // Update score and description
+          document.getElementById("carbonScore").textContent = total.toFixed(1);
+          updateScoreDescription(total);
+
+          // Generate recommendations
+          generateRecommendations(breakdown);
+
+          // Add sustainability tips section
+          const sustainabilitySection = document.createElement("div");
+          sustainabilitySection.className = "mt-12";
+          sustainabilitySection.innerHTML = generateTipsHTML(breakdown);
+          resultsContent.appendChild(sustainabilitySection);
+
+          // Initialize any necessary animations or interactions
+          document.querySelectorAll(".tip-card").forEach((card) => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+          });
+
+          // Animate tips entrance
+          setTimeout(() => {
+            document.querySelectorAll(".tip-card").forEach((card, index) => {
+              setTimeout(() => {
+                card.style.transition = "all 0.5s ease";
+                card.style.opacity = "1";
+                card.style.transform = "translateY(0)";
+              }, index * 100);
+            });
+          }, 500);
+
+          // Add social engagement section after sustainability tips
+          const socialSection = document.createElement("div");
+          socialSection.className = "mt-16 border-t pt-12";
+          socialSection.innerHTML = generateSocialSection(total.toFixed(1));
+          resultsContent.appendChild(socialSection);
+
+          // Initialize newsletter form
+          initializeNewsletter();
+
+          // Animate social buttons entrance
+          document
+            .querySelectorAll(".share-button")
+            .forEach((button, index) => {
+              button.style.opacity = "0";
+              button.style.transform = "translateY(20px)";
+
+              setTimeout(() => {
+                button.style.transition = "all 0.5s ease";
+                button.style.opacity = "1";
+                button.style.transform = "translateY(0)";
+              }, 700 + index * 100);
+            });
+        }, 500);
+      }
+
+      // Chart creation functions
+      function createGaugeChart(score) {
+        const ctx = document.getElementById("gaugeChart").getContext("2d");
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            datasets: [
+              {
+                data: [score, 20 - score],
+                backgroundColor: [
+                  score > 15 ? "#ef4444" : score > 10 ? "#f59e0b" : "#22c55e",
+                  "#e5e7eb",
+                ],
+                circumference: 180,
+                rotation: 270,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            cutout: "75%",
+            plugins: {
+              legend: { display: false },
+            },
+          },
+        });
+      }
+
+      function createBreakdownChart(breakdown) {
+        const ctx = document.getElementById("breakdownChart").getContext("2d");
+        new Chart(ctx, {
+          type: "doughnut",
+          data: {
+            labels: ["Transport", "Energy", "Diet", "Waste"],
+            datasets: [
+              {
+                data: [
+                  breakdown.transport,
+                  breakdown.energy,
+                  breakdown.diet,
+                  breakdown.waste,
+                ],
+                backgroundColor: ["#34d399", "#fbbf24", "#60a5fa", "#f87171"],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                position: "bottom",
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    const value = context.raw.toFixed(2);
+                    return `${context.label}: ${value} tons CO₂/year`;
+                  },
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function createComparisonChart(total) {
+        const ctx = document.getElementById("comparisonChart").getContext("2d");
+        const globalAverage = 4.7; // Global average CO2 emissions per person
+
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Your Footprint", "Global Average"],
+            datasets: [
+              {
+                data: [total, globalAverage],
+                backgroundColor: [
+                  total > globalAverage ? "#ef4444" : "#22c55e",
+                  "#64748b",
+                ],
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return `${context.raw.toFixed(2)} tons CO₂/year`;
+                  },
+                },
+              },
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                title: {
+                  display: true,
+                  text: "Metric Tons CO₂/Year",
+                },
+              },
+            },
+          },
+        });
+      }
+
+      function generateRecommendations(breakdown) {
+        const recommendationsList = document.getElementById(
+          "recommendationsList"
+        );
+        recommendationsList.innerHTML = "";
+
+        const recommendations = [];
+
+        // Transport recommendations
+        if (breakdown.transport > 2) {
+          recommendations.push({
+            icon: "🚌",
+            text: "Consider using public transport or carpooling to reduce your transport emissions.",
+          });
+        }
+
+        // Energy recommendations
+        if (breakdown.energy > 3) {
+          recommendations.push({
+            icon: "💡",
+            text: "Switch to energy-efficient appliances and LED lighting to reduce energy consumption.",
+          });
+        }
+
+        // Diet recommendations
+        if (breakdown.diet > 2.5) {
+          recommendations.push({
+            icon: "🥗",
+            text: "Try incorporating more plant-based meals into your diet to reduce emissions.",
+          });
+        }
+
+        // Waste recommendations
+        if (breakdown.waste > 1) {
+          recommendations.push({
+            icon: "♻️",
+            text: "Increase your recycling efforts and consider composting organic waste.",
+          });
+        }
+
+        // Add recommendations to the list
+        recommendations.forEach((rec) => {
+          const div = document.createElement("div");
+          div.className =
+            "recommendation-item bg-white p-4 rounded-lg shadow-sm";
+          div.innerHTML = `
+            <span class="text-2xl mr-3">${rec.icon}</span>
+            <p class="text-gray-700">${rec.text}</p>
+          `;
+          recommendationsList.appendChild(div);
+        });
+      }
+
+      // Add to your CSS
+      const style = document.createElement("style");
+      style.textContent = `
+        .fade-out {
+          opacity: 0;
+          transform: translateY(-20px);
+          transition: all 0.3s ease-out;
+        }
+        
+        .fade-in {
+          opacity: 1;
+          transform: translateY(0);
+          transition: all 0.3s ease-in;
+        }
+        
+        .hidden {
+          display: none;
+        }
+        
+        .results-content {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+      `;
+      document.head.appendChild(style);
+
+      // Helper functions
+      function updateScoreDescription(score) {
+        const descriptions = {
+          low: "Great job! Your carbon footprint is below average.",
+          medium:
+            "Your carbon footprint is around average. There's room for improvement.",
+          high: "Your carbon footprint is above average. Consider our recommendations to reduce it.",
+        };
+
+        const description =
+          score < 8
+            ? descriptions.low
+            : score < 15
+            ? descriptions.medium
+            : descriptions.high;
+
+        document.getElementById("scoreDescription").textContent = description;
+      }
+
+      function resetCalculator() {
+        const calculator = document.getElementById("calculator");
+        const results = document.getElementById("results");
+
+        results.style.display = "none";
+        calculator.style.display = "block";
+        calculator.classList.remove("fade-out");
+
+        // Scroll to calculator
+        window.scrollTo({
+          top: calculator.offsetTop,
+          behavior: "smooth",
+        });
+      }
+
+      // Fix for calculator navigation
+      function scrollToCalculator() {
+        const calculator = document.getElementById("calculator");
+        if (calculator) {
+          // Show calculator if hidden
+          calculator.style.display = "block";
+          calculator.classList.remove("fade-out");
+
+          // Hide results if visible
+          const results = document.getElementById("results");
+          if (results) {
+            results.style.display = "none";
+          }
+
+          // Scroll to calculator
+          window.scrollTo({
+            top: calculator.offsetTop,
+            behavior: "smooth",
+          });
+        }
+      }
+
+      // Initialize footer when DOM is loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        initializeFooter();
+      });
+    </script>
+  </body>
+</html>

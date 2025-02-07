@@ -1,0 +1,719 @@
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  line-height: 1.6;
+  color: #333;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+section {
+  min-height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+/* Hero Section */
+.hero {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  /* Remove or comment out the static background */
+  background: linear-gradient(
+    135deg,
+    #1a472a,
+    #2d5a27
+  ); /* Dark green gradient background */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Uncomment below for animated leaves background instead of static image */
+  /* background: none; */
+  z-index: 1;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  text-align: center;
+  color: #fff;
+  padding: 2rem; /* Ample whitespace */
+  animation: fadeIn 1s ease-out;
+  z-index: 3;
+}
+
+.hero-title {
+  font-size: 4rem; /* Large and legible */
+  margin-bottom: 1rem;
+  animation: slideUp 1s ease-out;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  animation: slideUp 1s ease-out;
+  animation-delay: 0.3s;
+  animation-fill-mode: both;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 2rem;
+  background-color: #56ab2f;
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  border-radius: 50px;
+  transition: background-color 0.3s ease;
+  animation: slideUp 1s ease-out;
+  animation-delay: 0.6s;
+  animation-fill-mode: both;
+}
+
+.cta-button:hover {
+  background-color: #3e8e1c;
+}
+
+/* Custom Input Section Styles */
+.form-group {
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: transparent;
+}
+
+.form-group:hover {
+  background: rgba(86, 171, 47, 0.05);
+  transform: translateX(5px);
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+/* Focus styles for inputs, dropdowns, and sliders */
+.ui-input:focus,
+.ui-dropdown:focus,
+input[type="range"]:focus {
+  outline: none;
+  border-color: #56ab2f;
+  box-shadow: 0 0 0 2px rgba(86, 171, 47, 0.2);
+}
+
+/* Style for radio buttons */
+.ui-radio-group input[type="radio"] {
+  cursor: pointer;
+}
+
+/* Submit button transition (if not handled by Tailwind) */
+.submit-button {
+  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.submit-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(86, 171, 47, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* For Animated Leaves Background in Hero Section */
+/*
+   To use this effect, in your .hero rule comment out the static background and uncomment:
+   background: none;
+*/
+
+/* Floating Leaves - high resolution animated leaves flowing effect */
+.floating-leaf {
+  position: absolute;
+  z-index: 2; /* Make leaves visible above the hero overlay */
+  width: 40px;
+  height: 40px;
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%2356ab2f"><path d="M17,8C8,10,5.9,16.17,3.82,21.34L5.71,22l1-2.3A4.49,4.49,0,0,0,8,20C19,20,22,3,22,3,21,5,14,5.25,9,6.25S2,11.5,2,13.5a6.22,6.22,0,0,0,1.75,3.75C6,13,8,10,17,8Z"/></svg>');
+  background-size: contain;
+  background-repeat: no-repeat;
+  animation: floatLeaves var(--duration, 12s) linear infinite;
+  animation-delay: var(--delay, 0s);
+  transform-origin: center;
+  opacity: 0;
+}
+
+/* Animation for flowing leaves */
+@keyframes floatLeaves {
+  0% {
+    transform: translateY(100vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20vh) translateX(var(--translate-x, 100px))
+      rotate(720deg);
+    opacity: 0;
+  }
+}
+
+/* Enhanced Form Styling */
+#calculator {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 6rem 1rem;
+  min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+#carbonForm {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(20px);
+  opacity: 0;
+  animation: formAppear 0.8s ease-out forwards;
+  max-width: 800px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  opacity: 1;
+  transform: none;
+}
+
+/* Custom Range Slider Styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 8px;
+  background: #e9ecef;
+  border-radius: 4px;
+  background-image: linear-gradient(#56ab2f, #56ab2f);
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: #56ab2f;
+  cursor: pointer;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+}
+
+/* Enhanced Slider Styling */
+.slider-container {
+  padding: 1rem 0;
+}
+
+.styled-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #e5e7eb;
+  outline: none;
+}
+
+.styled-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #56ab2f;
+  cursor: pointer;
+  border: 2px solid #fff;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+.styled-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 4px rgba(86, 171, 47, 0.4);
+}
+
+/* Radio Button Custom Styling */
+.ui-radio-group {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.5rem 0;
+}
+
+.radio-option {
+  position: relative;
+  padding: 0.5rem 1rem 0.5rem 2.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.radio-option:hover {
+  background: rgba(86, 171, 47, 0.1);
+}
+
+/* Form Animations */
+@keyframes formAppear {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Icon Animations */
+.icon {
+  display: inline-block;
+  margin-left: 0.5rem;
+  transform: scale(1);
+  transition: all 0.3s ease;
+  animation: emojiPop 0.3s ease-out;
+}
+
+.form-group:hover .icon {
+  transform: scale(1.2);
+}
+
+/* Add animation for emoji changes */
+.emoji-pop {
+  animation: emojiPop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+}
+
+@keyframes emojiPop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Modern Transport Mode Selection */
+.transport-options {
+  margin-top: 1rem;
+}
+
+.transport-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.transport-option input:checked + .transport-label {
+  border-color: #56ab2f;
+  background: #f0fdf4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(86, 171, 47, 0.1);
+}
+
+/* Modern Energy Input */
+.energy-input-wrapper {
+  position: relative;
+}
+
+.modern-input {
+  width: 100%;
+  padding: 1rem;
+  padding-right: 4rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+  border-color: #56ab2f;
+  box-shadow: 0 0 0 3px rgba(86, 171, 47, 0.1);
+}
+
+.unit-label {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+}
+
+.energy-feedback {
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.energy-feedback.low {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.energy-feedback.medium {
+  background: #fefce8;
+  color: #854d0e;
+}
+
+.energy-feedback.high {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+/* Enhanced Energy Input Styling */
+.energy-card {
+  transition: all 0.3s ease;
+}
+
+.energy-card:hover {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.modern-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.25rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.modern-input:focus {
+  border-color: #56ab2f;
+  box-shadow: 0 0 0 3px rgba(86, 171, 47, 0.1);
+}
+
+.unit-label {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  font-weight: 500;
+  background: #f8f9fa;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+}
+
+.energy-scale {
+  padding-top: 0.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* Modern Diet Selection */
+.diet-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.diet-emoji {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.diet-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.diet-description {
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+.diet-option input:checked + .diet-label {
+  border-color: #56ab2f;
+  background: #f0fdf4;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(86, 171, 47, 0.1);
+}
+
+/* Hover Effects */
+.transport-label:hover,
+.diet-label:hover {
+  transform: translateY(-2px);
+  border-color: #56ab2f;
+}
+
+/* Results Section Styling */
+.gauge-container {
+  position: relative;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+.chart-container {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.chart-container:hover {
+  transform: translateY(-2px);
+}
+
+.recommendations {
+  background: linear-gradient(to right bottom, #f0fdf4, #dcfce7);
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.recommendation-item:hover {
+  transform: translateX(4px);
+}
+
+/* Animation classes */
+.fade-out {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: all 0.5s ease-out;
+}
+
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: all 0.5s ease-in;
+}
+
+/* Sustainability Tips Styling */
+.sustainability-tips {
+  padding: 2rem 0;
+}
+
+.quote-container {
+  max-width: 800px;
+  margin: 0 auto 3rem;
+  text-align: center;
+}
+
+.sustainability-quote {
+  font-size: 1.5rem;
+  color: #1a472a;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.quote-author {
+  color: #666;
+  font-size: 1rem;
+}
+
+.tips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.tip-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.tip-card:hover {
+  transform: translateY(-5px);
+  border-color: #56ab2f;
+  box-shadow: 0 8px 15px rgba(86, 171, 47, 0.2);
+}
+
+.tip-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.tip-title {
+  color: #1a472a;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.tip-description {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.tip-link {
+  display: inline-block;
+  color: #56ab2f;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.tip-link:hover {
+  color: #3e8e1c;
+  text-decoration: underline;
+}
+
+/* Social Engagement Styling */
+.social-engagement-section {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.share-container {
+  margin-bottom: 3rem;
+}
+
+.social-buttons {
+  perspective: 1000px;
+}
+
+.share-button {
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.share-button:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.newsletter-container {
+  max-width: 500px;
+  margin: 0 auto;
+  animation: slideUp 0.8s ease-out;
+}
+
+.newsletter-container form {
+  position: relative;
+}
+
+.newsletter-container input {
+  transition: all 0.3s ease;
+}
+
+.newsletter-container input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(86, 171, 47, 0.1);
+}
+
+/* Toast Notification */
+@keyframes slideInUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Footer Styling */
+.footer-section {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+}
+
+.footer-links a {
+  position: relative;
+  text-decoration: none;
+}
+
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 1px;
+  bottom: -2px;
+  left: 0;
+  background-color: #4ade80;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .footer-section {
+    text-align: center;
+  }
+
+  .footer-links ul {
+    justify-content: center;
+    margin-top: 1rem;
+  }
+}
