@@ -59,24 +59,25 @@ function generateSocialSection(score) {
     `;
 }
 
+// Add responsive handling for social buttons
 function generateSocialButtons(score) {
   const networks = [
     {
       name: "twitter",
       icon: "🐦",
-      label: "Tweet",
+      label: window.innerWidth < 768 ? "Share on Twitter" : "Tweet",
       class: "bg-[#1DA1F2] hover:bg-[#1a8cd8]",
     },
     {
       name: "facebook",
       icon: "📘",
-      label: "Share",
+      label: window.innerWidth < 768 ? "Share on Facebook" : "Share",
       class: "bg-[#4267B2] hover:bg-[#365899]",
     },
     {
       name: "linkedin",
       icon: "💼",
-      label: "Post",
+      label: window.innerWidth < 768 ? "Share on LinkedIn" : "Post",
       class: "bg-[#0077b5] hover:bg-[#006399]",
     },
   ];
@@ -136,3 +137,13 @@ function showToast(message) {
     setTimeout(() => toast.remove(), 300);
   }, 3000);
 }
+
+// Add window resize handler for responsive updates
+window.addEventListener("resize", () => {
+  if (document.querySelector(".social-buttons")) {
+    const buttons = generateSocialButtons(
+      document.getElementById("carbonScore").textContent
+    );
+    document.querySelector(".social-buttons").innerHTML = buttons;
+  }
+});

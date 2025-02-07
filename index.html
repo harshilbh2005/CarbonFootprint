@@ -2,7 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
     <title>Carbon Footprint Calculator</title>
     <link rel="stylesheet" href="style.css" />
     <link
@@ -102,7 +105,7 @@
             Transportation Mode
             <span class="icon" id="transport-emoji">🚗</span>
           </label>
-          <div class="transport-options grid grid-cols-2 gap-4">
+          <div class="transport-options grid grid-cols-2 md:grid-cols-2 gap-4">
             <div class="transport-option" data-value="car" data-emoji="🚗">
               <input
                 type="radio"
@@ -237,7 +240,7 @@
           <label class="block text-gray-700 text-lg font-semibold mb-4">
             Diet Preference
           </label>
-          <div class="diet-options grid grid-cols-3 gap-4">
+          <div class="diet-options grid grid-cols-1 md:grid-cols-3 gap-4">
             <div class="diet-option" data-emoji="🌱">
               <input
                 type="radio"
