@@ -64,21 +64,21 @@ function generateSocialButtons(score) {
   const networks = [
     {
       name: "twitter",
-      icon: '<i class="fab fa-twitter"></i>',
+      icon: "fab fa-twitter",
       label: window.innerWidth < 768 ? "Share on Twitter" : "Tweet",
-      class: "bg-[#1DA1F2] hover:bg-[#1a8cd8]",
+      class: "hover:bg-gray-100",
     },
     {
       name: "facebook",
-      icon: '<i class="fab fa-facebook-f"></i>',
+      icon: "fab fa-facebook-f",
       label: window.innerWidth < 768 ? "Share on Facebook" : "Share",
-      class: "bg-[#4267B2] hover:bg-[#365899]",
+      class: "hover:bg-gray-100",
     },
     {
       name: "linkedin",
-      icon: '<i class="fab fa-linkedin-in"></i>',
+      icon: "fab fa-linkedin-in",
       label: window.innerWidth < 768 ? "Share on LinkedIn" : "Post",
-      class: "bg-[#0077b5] hover:bg-[#006399]",
+      class: "hover:bg-gray-100",
     },
   ];
 
@@ -87,9 +87,9 @@ function generateSocialButtons(score) {
       (network) => `
         <button 
             onclick="shareResult('${network.name}', ${score})"
-            class="share-button ${network.class} text-white px-6 py-3 rounded-lg flex items-center gap-3 transform hover:scale-105 transition-all"
+            class="share-button border border-gray-300 px-6 py-3 rounded-lg flex items-center gap-3 transform hover:scale-105 transition-all ${network.class}"
         >
-            <span class="text-xl">${network.icon}</span>
+            <i class="${network.icon} w-5 h-5 flex items-center justify-center text-xl"></i>
             <span>${network.label}</span>
         </button>
     `
@@ -147,3 +147,48 @@ window.addEventListener("resize", () => {
     document.querySelector(".social-buttons").innerHTML = buttons;
   }
 });
+
+// Add this function to check if Font Awesome is loaded
+function isFontAwesomeLoaded() {
+  return document.querySelector(".fa-brands") !== null;
+}
+
+// Update the showResults function to ensure icons are loaded
+function showResults(total, breakdown) {
+  const calculator = document.getElementById("calculator");
+  const results = document.getElementById("results");
+  const resultsContent = document.querySelector(".results-content");
+
+  calculator.classList.add("fade-out");
+
+  setTimeout(() => {
+    calculator.style.display = "none";
+    results.style.display = "block";
+
+    // Initialize results content
+    resultsContent.classList.add("fade-in");
+
+    // ... existing chart initialization code ...
+
+    // Add social section immediately
+    const socialSection = document.createElement("div");
+    socialSection.className = "mt-16 border-t pt-12";
+    socialSection.innerHTML = generateSocialSection(total.toFixed(1));
+    resultsContent.appendChild(socialSection);
+
+    // Initialize newsletter
+    initializeNewsletter();
+
+    // Animate social buttons
+    document.querySelectorAll(".share-button").forEach((button, index) => {
+      button.style.opacity = "0";
+      button.style.transform = "translateY(20px)";
+
+      setTimeout(() => {
+        button.style.transition = "all 0.5s ease";
+        button.style.opacity = "1";
+        button.style.transform = "translateY(0)";
+      }, 700 + index * 100);
+    });
+  }, 500);
+}
